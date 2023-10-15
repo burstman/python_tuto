@@ -3,7 +3,8 @@ shoppinglist = []
 action = ""
 inputError = False
 #loop for manuplation of the shpping list
-while True:
+
+while action != "quit":
     print("--------------------------------------------------")
     action = input("Please use:\n [add] to add item in the shopping list\n [remove] to remove item from shopping list\n\
  [view] to view item from shopping list\n [quit] to quit from shopping list\n")
@@ -29,10 +30,7 @@ while True:
             print("Item does not exist the shopping list")
         else:
             shoppinglist.remove(remove)
-            print("Item succefully removed ")
-    #quit menu or break the loop
-    elif action == "quit":
-        break
+            print("Item succefully removed ")    
     #force user to put respective command
     if inputError == True:
-        print("Please promt the right command")
+        print("Error: Please promt the right command")
