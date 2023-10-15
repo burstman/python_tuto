@@ -2,7 +2,7 @@
 shoppinglist = []
 action = ""
 inputError = False
-#loop for manuplation of the shpping list
+#loop for manuplation of the shpping list stop when action = quit
 
 while action != "quit":
     print("--------------------------------------------------")
