@@ -9,7 +9,7 @@ while action != "quit":
     action = input("Please use:\n [add] to add item in the shopping list\n [remove] to remove item from shopping list\n\
  [view] to view item from shopping list\n [quit] to quit from shopping list\n")
     print("--------------------------------------------------")
-    if action not in ("add", "remove", "view", "quit"): #condition inputError, if the input is not in the tuple inputError will be true
+    if action not in ("add", "remove", "view", "quit"): #condition inputError, if the input is not in the tuple inputError will be true.
         inputError = True
     #add item condition Max 10 item
     if action == "add" and inputError == False:
