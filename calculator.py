@@ -19,8 +19,6 @@ def divide(num1, num2):
 operation = {"+": addition, "-": substract,
              "*": multiply, "/": divide}
 
-action = ""
-
 
 def calculator():
     num1 = float(input("Prompt the first number"))
