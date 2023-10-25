@@ -2,8 +2,8 @@ import numpy as np
 # reading the csv file , (with) ensure the closing of the  file after reading
 with open("file_handling/Loan_prediction_dataset.csv", "r") as data:
     next(data)
-    loan_amount = [float(line.strip().split(',')[9])
-                   for line in data if line.strip().split(',')[9]]
+    loan_amount = [float(line.strip().split(',')[8])
+                   for line in data if line.strip().split(',')[8]]
 
 # convert data from csv tp ndarray object
 loan_amount_array = np.array(loan_amount)
