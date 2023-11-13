@@ -189,8 +189,6 @@ df_no_outlier = manip1(df).delete_outliers(zscore_threshold=3)
 splitted_data = manip1(df).split_dataframe(0.5)
 
 # the commented lines are some tweeks that i have tried and they have not give me a good results
-# print(manip2(df_split[0]).number_of_outlier(3))
-# print(manip2(df_split[1]).number_of_outlier(3))
 """
 manip0(first_split[['load', 'Energy']]).train(column1='load', column2='Energy',
                                      test_size=0.35, random_state=40, model=model, title='regression first split')
