@@ -181,7 +181,7 @@ df['Time'] = pd.to_numeric(df['Time'])
 labelEncoder = LabelEncoder()
 df['BS'] = labelEncoder.fit_transform(df['BS'])
 
-# manip0(df).get_report(title='5G report', location='machine_learning_linear_regression')
+manip0(df).get_report(title='5G report', location='machine_learning_linear_regression')
 # no missing or corrupted values and no duplicates row detected from the report
 
 # Handling outliers
