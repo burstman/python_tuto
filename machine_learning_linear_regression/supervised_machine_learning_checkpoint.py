@@ -70,11 +70,19 @@ class L_R_Manip:
     def delete_outliers(self, zscore_threshold):
         z_scores = self.get_zscore()
         print(len(self.df))
-        return self.df[~(np.abs(z_scores) >
-                         zscore_threshold).any(axis=1)]
-        # train a single linear regression
 
-    def train_one_input_and_plot(self, column1, target_column, test_size, random_state, title):
+        # Create a boolean mask for outliers
+        outlier_mask = np.abs(z_scores) > zscore_threshold
+
+        # Reset DataFrame index
+        self.df.reset_index(drop=True, inplace=True)
+
+        # Apply the boolean mask to filter outliers
+        filtered_data = self.df[~outlier_mask.any(axis=1)]
+
+        return filtered_data
+
+    def train_single_linear_regression(self, column1, target_column, test_size, random_state, title):
         x = self.df[column1].values.reshape(-1, 1)
         y = self.df[target_column].values
         x_train, x_test, y_train, y_test = train_test_split(
@@ -90,7 +98,7 @@ class L_R_Manip:
 
         # train multi linear regression
 
-    def train_multi_inputs(self, *columns, target_column, test_size, random_state):
+    def train_multi_linear_regression(self, *columns, target_column, test_size, random_state):
         x = self.df[list(columns)].values.reshape(-1, len(columns))
         y = self.df[target_column].values
         x_train, x_test, y_train, y_test = train_test_split(
@@ -159,10 +167,10 @@ class L_R_Manip:
         lg.fit(x_train_fit, y_train)
         x_test_ = poly.fit_transform(x_test)
         predicted = lg.predict(x_test_)
-        # Evaluate the model
-        print("MSE:", mean_squared_error(y_test, predicted))
-        print("R squared:", r2_score(y_test, predicted))
-        print("---------------------------")
+
+        # print("MSE:", mean_squared_error(y_test, predicted))
+        # print("R squared:", r2_score(y_test, predicted))
+        return r2_score(y_test, predicted), mean_squared_error(y_test, predicted)
 
 
 # ceate some variable objects
@@ -181,35 +189,54 @@ df['Time'] = pd.to_numeric(df['Time'])
 labelEncoder = LabelEncoder()
 df['BS'] = labelEncoder.fit_transform(df['BS'])
 
-manip0(df).get_report(title='5G report', location='machine_learning_linear_regression/5G_report.html')
+manip0(df).get_report(title='5G report',location='machine_learning_linear_regression/5G_report.html')
 # no missing or corrupted values and no duplicates row detected from the report
-
+# the load and TXpower have a good positive correlation we can take them as our inputs in ou function
 # Handling outliers
-df_no_outlier = manip1(df).delete_outliers(zscore_threshold=3)
-splitted_data = manip1(df).split_dataframe(0.5)
+data_no_outlire = manip0(df).delete_outliers(3)
+# i have found that is splitting the date in to halfs will give some betters results.
+# the split_dataframe mthode split the dataset with percentage. For this test i have split 
+# it in 70% and 30% part each. 
+splitted_data = manip1(data_no_outlire).split_dataframe(percentage=0.7)
 
-# the commented lines are some tweeks that i have tried and they have not give me a good results
+
+first_split = splitted_data[0]
+second_split = splitted_data[1]
+
+# the commented lines are some tests for signle and multi linear regression that i have tried and they have not give me a good results
 """
-manip0(first_split[['load', 'Energy']]).train(column1='load', column2='Energy',
+manip0(first_split[['load', 'Energy']]).train_single_linear_regression(column1='load', column2='Energy',
                                      test_size=0.35, random_state=40, model=model, title='regression first split')
 
-manip0(second_split[['load', 'Energy']]).train(column1='load', column2='Energy',
+manip0(second_split[['load', 'Energy']]).train_single_linear_regression(column1='load', column2='Energy',
                                      test_size=0.35, random_state=40, model=model, title='regression second split')
 
 
 
-# manip2(new_df).train_multi_inputs('Energy', 'TXpower',target_column='load', test_size=0.35, random_state=40, model=model)
+# manip2(new_df).train_multi_linear_regression('load', 'TXpower',target_column='Energy', test_size=0.35, random_state=40, model=model)
 
 # manip0(df).plot_data('Energy','TXpower',model,"test")
-# manip0(df).train_multi_inputs('TXpower', target_column='Energy',test_size=0.4, random_state=30, model=model)
+# manip0(df).train_multi_linear_regression('TXpower', target_column='Energy',test_size=0.4, random_state=30, model=model)
 
 """
 
-# I have got a good results with polynomial regression at degree 7 and still we can tweek with different cuts of data.
-silce_no_outlier = poly_degree_manip(splitted_data[0]).delete_outliers(3)
-#Loop for different degree
-for i in range(1, 15):
+# I have got a better results with polynomial regression at degree 8 for the second half.
 
-    print("degree", i)
-    poly_degree_manip(silce_no_outlier).train_polynomial_regression(
+# Evaluate the model
+# Loop for differents degrees
+
+for i in range(0, 15):
+    r_sequared, MSE = poly_degree_manip(first_split).train_polynomial_regression(
         'load', 'TXpower', target_column='Energy', test_size=0.35, random_state=40, degree=i)
+
+    print('degree', i)
+    print("MSE:", MSE)
+    print("R squared:", r_sequared)
+
+print('-------------')
+for i in range(0, 15):
+    r_sequared, MSE = poly_degree_manip(second_split).train_polynomial_regression(
+        'load', 'TXpower', target_column='Energy', test_size=0.35, random_state=40, degree=i)
+    print('degree', i)
+    print("MSE:", MSE)
+    print("R squared:", r_sequared)
