@@ -27,7 +27,7 @@ class L_R_Manip:
     def __init__(self,  df):
         self.df = df
 
-        # Split the data set inti parties, the percentage parameter help me for the size of the cut.
+        # Split the data set in two parties, the percentage parameter help me freely manipulate the size of the cuts.
     def split_dataframe(self, percentage):
         if percentage is not None:
             split_index = int(len(self.df) * percentage)
@@ -81,7 +81,7 @@ class L_R_Manip:
         filtered_data = self.df[~outlier_mask.any(axis=1)]
 
         return filtered_data
-
+        # train single linear regression
     def train_single_linear_regression(self, column1, target_column, test_size, random_state, title):
         x = self.df[column1].values.reshape(-1, 1)
         y = self.df[target_column].values
@@ -97,7 +97,6 @@ class L_R_Manip:
         self.plot_data(column1, target_column, title)
 
         # train multi linear regression
-
     def train_multi_linear_regression(self, *columns, target_column, test_size, random_state):
         x = self.df[list(columns)].values.reshape(-1, len(columns))
         y = self.df[target_column].values
@@ -112,7 +111,6 @@ class L_R_Manip:
 
         # methode for training a polynomial regression with plot. The plot take the x axe as the first column added
         # and the y axis as target_column
-
     def train_polynomial_regression_with_plot(self, *input_columns, target_column, test_size, random_state, degree):
         x = self.df[list(input_columns)].values.reshape(-1, len(input_columns))
         y = self.df[target_column].values
@@ -148,7 +146,6 @@ class L_R_Manip:
         plt.show()
 
         # Training a polynomial regression without a plot
-
     def train_polynomial_regression(self, *input_columns, target_column, test_size, random_state, degree):
         x = self.df[list(input_columns)].values.reshape(-1, len(input_columns))
         y = self.df[target_column].values
@@ -173,7 +170,7 @@ class L_R_Manip:
         return r2_score(y_test, predicted), mean_squared_error(y_test, predicted)
 
 
-# ceate some variable objects
+# create some variable objects
 manip0 = L_R_Manip
 manip1 = L_R_Manip
 manip2 = L_R_Manip
@@ -224,7 +221,6 @@ manip0(second_split[['load', 'Energy']]).train_single_linear_regression(column1=
 
 # Evaluate the model
 # Loop for differents degrees
-
 for i in range(0, 15):
     r_sequared, MSE = poly_degree_manip(first_split).train_polynomial_regression(
         'load', 'TXpower', target_column='Energy', test_size=0.35, random_state=40, degree=i)
