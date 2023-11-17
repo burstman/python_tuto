@@ -194,11 +194,7 @@ data_no_outlire = manip0(df).delete_outliers(3)
 # i have found that is splitting the date in to halfs will give some betters results.
 # the split_dataframe mthode split the dataset with percentage. For this test i have split 
 # it in 70% and 30% part each. 
-splitted_data = manip1(data_no_outlire).split_dataframe(percentage=0.7)
-
-
-first_split = splitted_data[0]
-second_split = splitted_data[1]
+first_split,second_split = manip1(data_no_outlire).split_dataframe(percentage=0.7)
 
 # the commented lines are some tests for signle and multi linear regression that i have tried and they have not give me a good results
 """
