@@ -5,7 +5,6 @@ attrs==23.1.0
 backcall==0.2.0
 backports.zoneinfo==0.2.1
 blinker==1.7.0
-Bottleneck @ file:///opt/conda/conda-bld/bottleneck_1657175564434/work
 Brotli @ file:///tmp/abs_ecyw11_7ze/croots/recipe/brotli-split_1659616059936/work
 cachetools==5.3.2
 certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1700303426725/work/certifi
