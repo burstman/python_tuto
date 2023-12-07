@@ -2,14 +2,17 @@ import requests
 import pandas as pd
 import json
 
-api_url_APOD = 'https://api.nasa.gov/planetary/apod?api_key=zjXIM59bSmkIprgNtGtpaYpxUZLK0HucHuWOGgfn&start_date=2023-11-01&end_date=2023-11-30'
-api_url_NeoWs = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2013-11-01&end_date&api_key=zjXIM59bSmkIprgNtGtpaYpxUZLK0HucHuWOGgfn'
+#I will use  30days data for APOD
+api_url_APOD = 'https://api.nasa.gov/planetary/apod?api_key=zjXIM59bSmkIprgNtGtpaYpxUZLK0HucHuWOGgfn&start_date=2023-11-01&end_date=2023-12-01'
+#For NeoWs i have figure oit that i can only get the data for 7 days Max  for every requests.
+api_url_NeoWs = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2023-11-01&api_key=zjXIM59bSmkIprgNtGtpaYpxUZLK0HucHuWOGgfn'
 
 response_APOD = requests.get(api_url_APOD)
 response_NeoWs = requests.get(api_url_NeoWs)
+#we can print the headers to check our request limitations
 #print(response_NeoWs.headers)
 
-
+# Create a function convert the json data to dataframe 
 def NASA_APOD_json_to_dataframe(response):
     if response.status_code == 200:
         data = response.json()  # Convert the JSON response to a Python dictionary
@@ -21,17 +24,15 @@ def NASA_APOD_json_to_dataframe(response):
               response.status_code)
         return None
 
-
+#excute it
 # data = NASA_APOD_json_to_dataframe(response_APOD)
 # print(data)
 
-
+#this a tool that i have created to visualize the response requeste in a formatted way
 def pretty_print_json(response):
     if response.status_code == 200:
         # Retrieve the JSON data
-        json_data = response.json()
-        
-        
+        json_data = response.json() 
 
         # Convert JSON data to a formatted string
         formatted_json = json.dumps(json_data, indent=4)
@@ -43,7 +44,7 @@ def pretty_print_json(response):
         print("Failed to fetch data from the API. Status code:",
               response.status_code)
 
-#
+# Create a function convert the json data NoeoWs to dataframe and visualize the image of the day
 def NASA_NeoWs_json_to_dataframe(response):
     if response.status_code == 200:
         # Convert the JSON response to a Python dictionary
