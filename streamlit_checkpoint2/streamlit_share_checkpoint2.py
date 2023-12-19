@@ -141,3 +141,6 @@ if st.button('Predict'):
                 st.write('Bad probability to have a bank account')
         else:
             st.write("Model failed to load. Check for errors in the loading process.")
+            
+#link of the deployed project
+#https://pythontuto-2n22prme65gpuftawozmxo.streamlit.app/
