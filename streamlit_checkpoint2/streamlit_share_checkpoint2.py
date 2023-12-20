@@ -110,8 +110,9 @@ selected_education_level = st.selectbox("Choose education_level", options=list(v
 
 selected_education_level_numeric = values['education_level'][selected_education_level] # type: ignore
 
-year= st.number_input("Year:")
-age = st.number_input("age_of_respondent:")
+
+age = st.slider('Select age_of_respondent', 16, 100, 25)
+year= st.slider('Select Year',2016,2018,2016)
 
 st.write('country:', selected_country)
 st.write('location_type:', selected_location_type)
