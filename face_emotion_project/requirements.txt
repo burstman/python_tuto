@@ -1,0 +1,8 @@
+av==11.0.0
+numpy==1.26.3
+opencv_python==4.9.0.80
+streamlit==1.30.0
+streamlit_webrtc==0.47.1
+tensorflow==2.15.0.post1
+torch==2.1.2
+torchvision==0.16.2
