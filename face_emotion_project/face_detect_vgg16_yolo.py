@@ -19,8 +19,7 @@ def classify_transforms(size=64):
     return T.Compose([T.ToTensor(), T.Resize(size), T.CenterCrop(size), T.Normalize(IMAGENET_MEAN, IMAGENET_STD)])
 
 
-cascade = cv2.CascadeClassifier(
-    "face_emotion_project/haarcascade_frontalface_default.xml")
+cascade = cv2.CascadeClassifier("/home/hamed/pythonTuto/face_emotion_project/haarcascade_frontalface_default.xml")
 
 
 emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
@@ -31,8 +30,7 @@ emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
 
 def load_VGG_16_model():
-    model = tf.keras.models.load_model( # type: ignore
-        'face_emotion_project/emotion_model.keras', compile=False)  # type: ignore
+    model = tf.keras.models.load_model('/home/hamed/pythonTuto/face_emotion_project/emotion_model.keras', compile=False)  # type: ignore
     print(type(model))
     return model
 
@@ -42,7 +40,7 @@ model_VGG = load_VGG_16_model()
 
 def load_yolo_model():
     yolo_model = torch.hub.load(
-        'ultralytics/yolov5', 'custom', path='face_emotion_project/best.pt')
+        'ultralytics/yolov5', 'custom', path='/home/hamed/pythonTuto/face_emotion_project/best.pt')
     print(type(yolo_model))
     return yolo_model
 
